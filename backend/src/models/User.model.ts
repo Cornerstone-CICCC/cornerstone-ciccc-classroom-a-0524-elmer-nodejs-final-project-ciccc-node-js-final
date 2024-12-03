@@ -1,11 +1,17 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
 
+
+export interface img{
+  img: 1|2|3|4|5
+}
+
 export interface IUser extends Document {
   email: string;
   username: string;
   password: string;
   comparePassword: (candidatePassword: string) => Promise<boolean>;
+  imageNum: img
 }
 
 const UserSchema = new Schema<IUser>(
@@ -27,6 +33,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    imageNum: {
+      type: Number,
+      required: true
+    }
   },
   {
     timestamps: true,
