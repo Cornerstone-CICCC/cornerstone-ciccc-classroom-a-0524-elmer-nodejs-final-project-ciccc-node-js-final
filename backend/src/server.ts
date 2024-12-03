@@ -1,30 +1,34 @@
 import express from "express"
 import dotenv from "dotenv"
 import cors from 'cors';
-import {Server} from "socket.io"
+import { Server as SocketIOServer } from "socket.io"
 import mongoose from "mongoose"
 import { createServer } from 'http';
 import authRouter from "./routes/auth.routes"
 import pollRouter from "./routes/poll.routes"
+import voteSocket from "./sockets/vote.socket"
 
 dotenv.config()
 
 const app = express()
-// Middleware
+const server = createServer(app)
+
+
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/poll', pollRouter)
 
-const server = createServer(app)
-// const io = new Server(server, {
-//   cors:{
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"]
-//   },
-// })
+
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"]
+  }
+});
+
+
 
 
 const URI = process.env.DB!
@@ -33,10 +37,8 @@ mongoose
   .then(() => {
     console.log('Connected to MongoDB database');
 
-    // Start Socket.IO
-    // chatSocket(io);
+    voteSocket(io);
 
-    // Start the server
     const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
