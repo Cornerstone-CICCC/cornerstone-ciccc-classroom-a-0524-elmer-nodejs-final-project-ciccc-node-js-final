@@ -1,0 +1,87 @@
+<div class="create-container">
+  <div class="create-vote">
+    <h2>Create New Vote</h2>
+    <div class="home">
+      <!-- <img src="./home.svg" alt="home" class="home-icon"> -->
+      <p>home</p>
+    </div>
+    <form class="create-form">
+      <label>
+        <span>Question</span>
+        <input type="text" name="question" autocomplete="off" id="question" required placeholder="input your question" required>
+      </label>
+      <label>
+        <span>Description</span>
+        <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description">
+      </label>
+      <label>
+        <span>Option</span>
+        <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description"required>
+        <span class="option">+ Create Option</span>
+        <ul></ul>
+      </label>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>
+<style>
+
+  .create-container{
+    display: flex;
+		padding: 8px;
+    margin:0 auto;
+    align-items: center;
+		justify-content: center;
+    height:90vh;
+	}
+
+  h2{
+    text-align: center;
+  }
+
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    padding:24px;
+    padding-top:16px;
+    width: 440px;
+    border: 1px solid black;
+  }
+
+ label {
+  display: flex;
+  flex-direction: column;
+	margin-bottom: 16px;
+}
+
+ span{
+	margin-bottom: 8px;
+}
+
+input{
+	padding:16px;
+}
+
+.create-form button{
+	width:100%;
+	background-color:#2c2c2c;
+	color:white;
+	border-radius: 10px;
+}
+
+.home{
+	display:flex;
+}
+
+.home-icon{
+	width:24px;
+	cursor: pointer;
+}
+
+.option{
+  margin-top:36px;
+  border:0.8px solid black;
+  padding:16px;
+}
+</style>

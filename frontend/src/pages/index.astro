@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+ <div class ="container">
+	<div class ="main-visual">
+		<h1 id ="title">Voting App</h1>
+		<div class ="buttons">
+			<button id = "sign-up">Sign Up</button>
+			<button id ="log-in">Log In</button>
+		</div>
+	</div>
+	<div class="voting-list">
+		<div class="inline">
+			<div class="h2">Voting List</div>
+			<ul></ul>
+			<div class="new-vote">
+				<p>+ New Vote</p>
+			</div>
+		</div>
+	</div>
+ </div>
+</Layout>
+<script>
+	 document.addEventListener('DOMContentLoaded', () => {
+		const signupBtn = document.querySelector('#sign-up') as HTMLButtonElement;
+		const loginBtn = document.querySelector('#log-in') as HTMLButtonElement;
+		const newVoteBtn = document.querySelector('.new-vote') as HTMLButtonElement;
+
+	
+			signupBtn.addEventListener('click', () => {
+				window.location.href = '/signup'; 
+			});
+	
+			loginBtn.addEventListener('click', () => {
+				window.location.href = '/login'; 
+			});
+
+			newVoteBtn.addEventListener('click', () => {
+				window.location.href = '/create'; 
+			});
+	 })
+</script>
+<style>
+	button{
+		width: 160px;
+		height:40px;
+		border-radius: 30px;
+		font-size: 1rem;
+		border:none;
+		cursor: pointer;
+	}
+
+	button:first-child{
+		margin-right:40px;
+	}
+
+	.new-vote{
+		border:1px black solid;
+		width:400px;
+		text-align: center;
+		cursor:pointer;
+	}
+</style>
+
