@@ -1,28 +1,31 @@
-<div class="vote-container">
-  <div class="vote">
-    <h2>Let's Vote</h2>
-    <div class="home">
-      <!-- <img src="./home.svg" alt="home" class="home-icon"> -->
-      <p>home</p>
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="vote-container">
+    <div class="vote">
+      <h2>Let's Vote</h2>
+      <form class="vote-form">
+        <label>
+          <span>Question</span>
+          <p></p>
+        </label>
+        <label>
+          <span>Description</span>
+          <p></p>
+        </label>
+        <label>
+          <span>Option</span>
+          <p></p>
+        </label>
+        <ul></ul>
+        <button type="submit">Vote</button>
+      </form>
     </div>
-    <form class="vote-form">
-      <label>
-        <span>Question</span>
-        <p></p>
-      </label>
-      <label>
-        <span>Description</span>
-        <p></p>
-      </label>
-      <label>
-        <span>Option</span>
-        <p></p>
-      </label>
-      <ul></ul>
-      <button type="submit">Vote</button>
-    </form>
   </div>
-</div>
+</Layout>
+
 <style>
 
   .vote-container{
@@ -31,21 +34,29 @@
     margin:0 auto;
     align-items: center;
 		justify-content: center;
-    height:90vh;
+    height:95vh;
+    background-image: url('/src/assets/vote.jpg');
+		background-size: cover;
+		background-position: center;
+    font-family: "VT323", monospace;
+    font-weight: bold;
 	}
 
   h2{
     text-align: center;
+    font-size: 3rem;
+    color:black;
   }
 
   .vote-form {
     display: flex;
     flex-direction: column;
     gap: 15px; 
-    padding:24px;
+    padding:40px;
     padding-top:16px;
-    width: 440px;
-    border: 1px solid black;
+    width: 520px;
+    border: 3px solid black;
+    background-color: white;
   }
 
  label {
@@ -56,6 +67,7 @@
 
  span{
 	margin-bottom: 8px;
+  font-size: 1.2rem;
 }
 
 input{
@@ -67,14 +79,17 @@ input{
 	background-color:#2c2c2c;
 	color:white;
 	border-radius: 10px;
+  cursor: pointer;
+  padding:10px;
+  font-size:1.2rem;
+  box-shadow:2px 2px 0 2px black;
 }
 
-.home{
-	display:flex;
+.vote-form button:hover{
+  transform: translateY(4px);
+  box-shadow: none;
+  background-color: white;
+  color: black;
 }
 
-.home-icon{
-	width:24px;
-	cursor: pointer;
-}
 </style>

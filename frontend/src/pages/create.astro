@@ -1,42 +1,158 @@
-<div class="create-container">
-  <div class="create-vote">
-    <h2>Create New Vote</h2>
-    <div class="home">
-      <!-- <img src="./home.svg" alt="home" class="home-icon"> -->
-      <p>home</p>
-    </div>
-    <form class="create-form">
-      <label>
-        <span>Question</span>
-        <input type="text" name="question" autocomplete="off" id="question" required placeholder="input your question" required>
-      </label>
-      <label>
-        <span>Description</span>
-        <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description">
-      </label>
-      <label>
-        <span>Option</span>
-        <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description"required>
-        <span class="option">+ Create Option</span>
-        <ul></ul>
-      </label>
-      <button type="submit">Create</button>
-    </form>
-  </div>
-</div>
-<style>
+---
+import Layout from '../layouts/Layout.astro';
+---
 
+<Layout>
+
+  <div class="create-container">
+    <div class="create-vote">
+      <h2>Create New Vote</h2>
+      <div class="home">
+        <img src="src/assets/home.svg" alt="home" class="home-icon">
+        <p>Home</p>
+      </div>
+      <form class="create-form">
+        <label>
+          <div class="subtitle">
+            <span>Question</span>
+            <span class="red">required</span>
+          </div>
+          <input type="text" name="question" autocomplete="off" id="question" required placeholder="input your question" required>
+        </label>
+        <label>
+          <span>Description</span>
+          <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description">
+        </label>
+        <label>
+          <div class="subtitle">
+            <span>Option</span>
+            <span class="red">required</span>
+          </div>
+          <div class="option-form">
+            <input type="text" name="option" autocomplete="off" class="option" required placeholder="input your option"required>
+            <img src="src/assets/trashCan.svg" alt="trashCan" class="trash-can">
+          </div>
+          <span class="create-option">+ Create Option</span>
+        </label>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+</Layout>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+		const homeBtn = document.querySelector('.home') as HTMLButtonElement;
+    const createForm = document.querySelector('.create-form') as HTMLFormElement
+
+    const trashCanImg = document.querySelector('.trash-can') as HTMLButtonElement;
+    const optionForm = document.querySelector('.option-form') as HTMLFormElement
+
+    trashCanImg.addEventListener('click', () => {
+        optionForm.remove();
+      });
+
+
+    homeBtn.addEventListener('click', () => {
+      window.location.href = '/'; 
+    });
+    
+    const createOptionBtn = document.querySelector('.create-option') as HTMLButtonElement;
+    const parentLabel = createOptionBtn.parentElement;
+
+    createOptionBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      const optionForm = document.createElement('div')
+      optionForm.className = 'option-form';
+
+      const newInput = document.createElement('input');
+      newInput.type = 'text';
+      newInput.name = 'option';
+      newInput.autocomplete = 'off';
+      newInput.className = 'option';
+      newInput.required = true;
+      newInput.placeholder = 'Input your description';
+      newInput.style.padding = '16px';
+      newInput.style.marginBottom ='16px';
+      newInput.style.width = '85%';
+      newInput.style.border='2px solid black';
+
+      const trashCanImg = document.createElement('img');
+      trashCanImg.src = 'src/assets/trashCan.svg';
+      trashCanImg.alt = 'trashCan';
+      trashCanImg.className = 'trash-can';
+      trashCanImg.style.width = '40px';
+      trashCanImg.style.height = '30px';
+      trashCanImg.style.paddingLeft = '15px';
+      // trashCanImg.style.paddingTop = '5px';
+      trashCanImg.style.cursor = 'pointer';
+
+      trashCanImg.addEventListener('click', () => {
+        optionForm.remove();
+      });
+      
+      optionForm.appendChild(newInput);
+      optionForm.appendChild(trashCanImg);
+
+      if (parentLabel && parentLabel.parentNode) {
+        parentLabel.insertBefore(optionForm, createOptionBtn);
+      }
+    });
+
+    
+
+    createForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const createFormData = new FormData(createForm);
+      const question = createFormData.get('question');
+      const description = createFormData.get('description');
+      const option = createFormData.get('option');
+
+		console.log(JSON.stringify({ question, description, option }));
+
+    try{
+      const response = await fetch(`http://localhost:3001/createPoll`, {
+			method: 'POST',
+			headers: {
+				"Content-Type": 'application/json',
+			},
+			body: JSON.stringify({
+			"question":question,
+      "discription":description,
+      "option":option
+			}),
+			credentials: 'include'
+		});
+
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Something went wrong. Please try again later.');
+  }	
+	});
+
+	})
+</script>
+<style>
   .create-container{
     display: flex;
 		padding: 8px;
     margin:0 auto;
-    align-items: center;
 		justify-content: center;
-    height:90vh;
+    height:100vh;
+    background-image: url('/src/assets/create.jpg');
+		background-size: cover;
+		background-position: center;
+    font-family: "VT323", monospace;
+    font-weight: bold;
 	}
+
+  .create-vote{
+    margin-top:36px;
+  }
 
   h2{
     text-align: center;
+    font-size: 3rem;
+    color: white;
   }
 
   .create-form {
@@ -46,7 +162,8 @@
     padding:24px;
     padding-top:16px;
     width: 440px;
-    border: 1px solid black;
+    border: 2px solid black;
+    background-color: white;
   }
 
  label {
@@ -56,32 +173,81 @@
 }
 
  span{
-	margin-bottom: 8px;
+	margin-bottom: 0px;
 }
 
 input{
 	padding:16px;
 }
 
-.create-form button{
+ button{
 	width:100%;
 	background-color:#2c2c2c;
 	color:white;
 	border-radius: 10px;
+  padding:10px;
+  font-size:1.2rem;
+  box-shadow:2px 2px 0 2px black;
 }
+
+.create-form button:hover{
+		transform: translateY(4px);
+  	box-shadow: none;
+    background-color: white;
+    color: black;
+	}
 
 .home{
 	display:flex;
+  cursor: pointer;
+}
+
+.home p{
+  font-size:1.5rem;
+  margin-bottom:0px;
+  color: white;
 }
 
 .home-icon{
-	width:24px;
-	cursor: pointer;
+	width:35px;
+  height:25px;
+  padding-right: 10px;
 }
 
 .option{
-  margin-top:36px;
-  border:0.8px solid black;
+  border:2px solid black;
   padding:16px;
+  margin-bottom:16px;
+  width:85%;
 }
+
+.create-option{
+  border:2px solid black;
+  padding: 13px;
+  text-align: center;
+}
+
+.option-form{
+  display:flex;
+}
+
+.trash-can{
+  width: 40px;
+  height:40px;
+  padding-left:15px;
+  padding-top:10px;
+}
+
+span{
+  font-size:1.2rem;
+}
+
+input{
+  border: 2px solid black;
+}
+
+.red{
+  color:red;
+}
+
 </style>

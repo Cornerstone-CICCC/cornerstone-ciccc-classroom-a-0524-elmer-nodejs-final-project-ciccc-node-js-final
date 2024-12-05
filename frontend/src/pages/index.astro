@@ -3,24 +3,26 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
- <div class ="container">
+ <div class ="home-container" id = "home">
 	<div class ="main-visual">
-		<h1 id ="title">Voting App</h1>
-		<div class ="buttons">
-			<button id = "sign-up">Sign Up</button>
-			<button id ="log-in">Log In</button>
+		<div class="main-title">
+			<h1 id ="title">Voting App</h1>
+			<div class ="buttons">
+				<button id = "sign-up">Sign Up</button>
+				<button id ="log-in">Log In</button>
+			</div>
 		</div>
 	</div>
 	<div class="voting-list">
 		<div class="inline">
-			<div class="h2">Voting List</div>
+			<h2>Voting List</h2>
 			<ul></ul>
 			<div class="new-vote">
 				<p>+ New Vote</p>
 			</div>
 		</div>
 	</div>
- </div>
+</div>
 </Layout>
 <script>
 	 document.addEventListener('DOMContentLoaded', () => {
@@ -43,17 +45,31 @@ import Layout from '../layouts/Layout.astro';
 	 })
 </script>
 <style>
+	.home-container{
+		padding:0;
+		margin:0;
+		height: 1200px; 
+		overflow: visible;
+	}
+
 	button{
 		width: 160px;
 		height:40px;
 		border-radius: 30px;
-		font-size: 1rem;
+		font-size: 1.2rem;
 		border:none;
 		cursor: pointer;
+		font-family: "Bungee Inline", sans-serif;
+		background-color: black;
+		color: white;
 	}
 
 	button:first-child{
 		margin-right:40px;
+	}
+
+	button:hover{
+		scale: calc(1.2);
 	}
 
 	.new-vote{
@@ -61,6 +77,71 @@ import Layout from '../layouts/Layout.astro';
 		width:400px;
 		text-align: center;
 		cursor:pointer;
+		margin:0 auto;
+		padding:16px;
+		box-shadow:2px 2px 0 2px black;
+	}
+
+	.new-vote p{
+		margin:0;
+		font-family: "VT323", monospace;
+		font-size: 1.5rem;
+	}
+
+	.new-vote:hover{
+		transform: translateY(4px);
+  	box-shadow: none;
+	}
+
+	.main-visual{
+		background-image: url('/src/assets/main_visual.jpg');
+		background-size: cover;
+		background-position: center;
+		width: 100vw;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 600px;
+		overflow: visible;
+	}
+
+	h1{
+	  font-family: "Bungee Inline", sans-serif;
+		font-weight: 400;
+		font-style: normal;
+		font-size: 4rem;
+	}
+
+	.main-title{
+		padding-bottom: 150px;
+	}
+
+	#title{
+		margin-bottom:16px;
+	}
+
+	.voting-list{
+		border:3px solid black;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		padding:16px;
+		margin:100px auto;
+		width:80%;
+		box-shadow:2px 2px 0 2px black;
+	}
+
+	.inline{
+		border:3px solid black;
+		width:100%;
+		padding:16px;
+		box-shadow:2px 2px 0 2px black;
+	}
+
+	h2{
+  font-family: "VT323", monospace;
+  font-size: 2rem;
 	}
 </style>
 

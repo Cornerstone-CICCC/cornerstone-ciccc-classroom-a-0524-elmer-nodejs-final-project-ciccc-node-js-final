@@ -1,0 +1,61 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" id = 'title-btn'>Voting App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#" id ='home-btn'>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id ='create-btn'>Create New Vote</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id ='logout-btn'>Logout</a>
+          </li>
+          <li class="nav-item">
+            <img src="">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const titleBtn = document.querySelector('#title-btn') as HTMLButtonElement;
+		const homeBtn = document.querySelector('#home-btn') as HTMLButtonElement;
+		const createBtn = document.querySelector('#create-btn') as HTMLButtonElement;
+		const logoutBtn = document.querySelector('#logout-btn') as HTMLButtonElement;
+
+     titleBtn.addEventListener('click',() => {
+      window.location.href = '/';
+     })
+
+			homeBtn.addEventListener('click', () => {
+				window.location.href = '/'; 
+			});
+	
+			createBtn.addEventListener('click', () => {
+				window.location.href = '/create'; 
+			});
+
+			logoutBtn.addEventListener('click', () => {
+				window.location.href = '/create'; 
+			});
+	 })
+</script>
+<style>
+  nav{
+    background-color: black;
+    font-family: "VT323", monospace;
+    font-size: 1.5rem;
+  }
+
+  .navbar-brand{
+    font-size: 1.5rem;
+  }
+</style>
