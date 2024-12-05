@@ -26,7 +26,6 @@ const UserSchema = new Schema<IUser>(
     username: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     password: {
@@ -43,22 +42,7 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-
-UserSchema.pre("save", async function (next) {
-  const user = this as IUser;
-
-  if (!user.isModified("password")) {
-    return next(); 
-  }
-
-  const salt = await bcrypt.genSalt(10); 
-  user.password = await bcrypt.hash(user.password, salt); 
-  next(); 
-});
-
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
+UserSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

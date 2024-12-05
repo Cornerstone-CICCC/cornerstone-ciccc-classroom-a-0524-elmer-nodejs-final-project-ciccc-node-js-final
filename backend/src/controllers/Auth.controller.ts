@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
 import User from "../models/User.model";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
+  const { email, username, password, imageNum } = req.body;
   try {
-    const { email, username, password } = req.body;
-
-    if (!email || !username || !password) {
-      res.status(400).json({ message: "All fields are required" });
-      return;
-    }
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -20,13 +17,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const user = new User({
       email,
       username,
-      password,
+      password:hashedPassword,
+      imageNum
     });
 
     await user.save();
-
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.error(error)
     res.status(500).json({ message: "Registration failed" });
   }
 };
@@ -41,23 +39,29 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const user = await User.findOne({ email });
-
-    if (!user || !(await user.comparePassword(password))) {
-      res.status(401).json({ message: "Invalid email or password" });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
       return;
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
+const passwordMatch = await user.comparePassword(password);
+if (!passwordMatch) {
+  res.status(401).json({ message: "Invalid credentials" });
+  return;
+}
 
-    if (!jwtSecret) {
-      throw new Error("JWT secret is not defined");
-    }
+    const jwtSecret = process.env.JWT_SECRET!
 
-    const token = jwt.sign({ id: user.id }, jwtSecret, {
+    const token = jwt.sign({ id: user?.id }, jwtSecret, {
       expiresIn: "1d",
     });
 
-    res.json({ token });
+    res.cookie("authToken", token, {
+      httpOnly: true,     
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({ message: "Login successful" });
   } catch (err) {
     res.status(500).json({ message: "Login failed", error: (err as Error).message });
   }
