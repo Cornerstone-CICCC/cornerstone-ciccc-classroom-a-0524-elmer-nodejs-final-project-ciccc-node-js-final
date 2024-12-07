@@ -40,7 +40,12 @@
 			});
 	
 			createBtn.addEventListener('click', () => {
-				window.location.href = '/create'; 
+        const isLoggedIn = localStorage.getItem('token'); 
+        if (!isLoggedIn) {
+          alert('Please log in');
+        }else{
+          window.location.href = '/create'; 
+        }
 			});
 
 			logoutBtn.addEventListener('click', () => {

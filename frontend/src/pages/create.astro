@@ -7,10 +7,10 @@ import Layout from '../layouts/Layout.astro';
   <div class="create-container">
     <div class="create-vote">
       <h2>Create New Vote</h2>
-      <div class="home">
+      <!-- <div class="home">
         <img src="src/assets/home.svg" alt="home" class="home-icon">
         <p>Home</p>
-      </div>
+      </div> -->
       <form class="create-form">
         <label>
           <div class="subtitle">
@@ -50,11 +50,6 @@ import Layout from '../layouts/Layout.astro';
     trashCanImg.addEventListener('click', () => {
         optionForm.remove();
       });
-
-
-    homeBtn.addEventListener('click', () => {
-      window.location.href = '/'; 
-    });
     
     const createOptionBtn = document.querySelector('.create-option') as HTMLButtonElement;
     const parentLabel = createOptionBtn.parentElement;
@@ -83,7 +78,6 @@ import Layout from '../layouts/Layout.astro';
       trashCanImg.style.width = '40px';
       trashCanImg.style.height = '30px';
       trashCanImg.style.paddingLeft = '15px';
-      // trashCanImg.style.paddingTop = '5px';
       trashCanImg.style.cursor = 'pointer';
 
       trashCanImg.addEventListener('click', () => {
@@ -107,10 +101,16 @@ import Layout from '../layouts/Layout.astro';
       const description = createFormData.get('description');
       const option = createFormData.get('option');
 
-		console.log(JSON.stringify({ question, description, option }));
+		  console.log(JSON.stringify({ question, description, option }));
+
+      if (!question || !option) {
+    alert('Please fill in fields');
+    return;
+  }
 
     try{
       const response = await fetch(`http://localhost:3001/createPoll`, {
+      credentials: 'include',
 			method: 'POST',
 			headers: {
 				"Content-Type": 'application/json',
@@ -120,13 +120,11 @@ import Layout from '../layouts/Layout.astro';
       "discription":description,
       "option":option
 			}),
-			credentials: 'include'
 		});
-
   } catch (error) {
     console.error('Error:', error);
     alert('Something went wrong. Please try again later.');
-  }	
+    }	
 	});
 
 	})
@@ -159,9 +157,8 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-direction: column;
     gap: 15px; 
-    padding:24px;
-    padding-top:16px;
-    width: 440px;
+    padding:40px;
+    width: 520px;
     border: 2px solid black;
     background-color: white;
   }
@@ -248,6 +245,17 @@ input{
 
 .red{
   color:red;
+}
+
+@media screen and (max-width: 767px) {
+  .create-vote{
+    width:80% !important;
+    margin: 0 auto;
+  }
+
+  .create-form{
+    margin:0 auto;
+  }
 }
 
 </style>

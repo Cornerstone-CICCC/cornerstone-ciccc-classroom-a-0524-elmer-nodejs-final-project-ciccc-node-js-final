@@ -16,7 +16,7 @@ import Layout from '../layouts/Layout.astro';
 	<div class="voting-list">
 		<div class="inline">
 			<h2>Voting List</h2>
-			<ul></ul>
+			<ul class="voting-list"></ul>
 			<div class="new-vote">
 				<p>+ New Vote</p>
 			</div>
@@ -29,7 +29,6 @@ import Layout from '../layouts/Layout.astro';
 		const signupBtn = document.querySelector('#sign-up') as HTMLButtonElement;
 		const loginBtn = document.querySelector('#log-in') as HTMLButtonElement;
 		const newVoteBtn = document.querySelector('.new-vote') as HTMLButtonElement;
-
 	
 			signupBtn.addEventListener('click', () => {
 				window.location.href = '/signup'; 
@@ -40,8 +39,45 @@ import Layout from '../layouts/Layout.astro';
 			});
 
 			newVoteBtn.addEventListener('click', () => {
-				window.location.href = '/create'; 
+        const isLoggedIn = localStorage.getItem('token'); 
+        if (!isLoggedIn) {
+          alert('Please log in');
+        }else{
+          window.location.href = '/create'; 
+        }
 			});
+
+			function displayPolls(polls) {
+				const pollList = document.querySelector(".voting-list") as HTMLElement;
+
+				pollList.innerHTML = "";
+
+				polls.forEach((poll) => {
+					const listItem = document.createElement("li");
+					listItem.textContent = poll.question; 
+					pollList.appendChild(listItem);
+
+					listItem.addEventListener("click", () => {
+					window.location.href = `/vote.astro?id=${poll._id}`;
+				});
+				});
+			}
+
+			async function fetchPolls() {
+  		try {
+			const response = await fetch("http://localhost:3001/api/poll"); 
+			if (!response.ok) {
+				throw new Error("Failed to fetch polls");
+			}
+
+				const polls = await response.json();
+				displayPolls(polls); 
+			} catch (error) {
+				console.error("Error fetching polls:", error);
+			}
+		}
+
+		fetchPolls();
 	 })
 </script>
 <style>
@@ -50,10 +86,10 @@ import Layout from '../layouts/Layout.astro';
 		margin:0;
 		height: 1200px; 
 		overflow: visible;
+		background-color: black;
 	}
 
 	button{
-		width: 160px;
 		height:40px;
 		border-radius: 30px;
 		font-size: 1.2rem;
@@ -73,13 +109,14 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.new-vote{
-		border:1px black solid;
-		width:400px;
+		border:3px black solid;
+		width:80%;
 		text-align: center;
 		cursor:pointer;
 		margin:0 auto;
 		padding:16px;
 		box-shadow:2px 2px 0 2px black;
+		background-color: white;
 	}
 
 	.new-vote p{
@@ -130,12 +167,13 @@ import Layout from '../layouts/Layout.astro';
 		margin:100px auto;
 		width:80%;
 		box-shadow:2px 2px 0 2px black;
+		background-color: white;
 	}
 
 	.inline{
 		border:3px solid black;
 		width:100%;
-		padding:16px;
+		padding:40px;
 		box-shadow:2px 2px 0 2px black;
 	}
 
@@ -143,5 +181,29 @@ import Layout from '../layouts/Layout.astro';
   font-family: "VT323", monospace;
   font-size: 2rem;
 	}
+
+	@media screen and (max-width: 767px) {
+	.buttons{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	#sign-up{
+		margin:0 auto;
+	}
+
+	#log-in{
+		margin:0 auto;
+		margin-top:8px;
+	}
+
+	button:first-child{
+		margin-right:0px;
+	}
+	}
+
 </style>
 

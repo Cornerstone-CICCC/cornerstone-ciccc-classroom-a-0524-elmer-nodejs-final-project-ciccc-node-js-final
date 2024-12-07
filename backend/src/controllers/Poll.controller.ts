@@ -102,7 +102,6 @@ export const deletePoll = async(req: Request, res: Response)=>{
     if (poll.authorId.toString() !== userId) {
       return res.status(403).json({ message: "この操作は許可されていません" });
     }
-
     
     res.status(200).json(poll)
   } catch (error) {
