@@ -116,6 +116,7 @@ import Layout from '../layouts/Layout.astro';
 		margin:0 auto;
 		padding:16px;
 		box-shadow:2px 2px 0 2px black;
+		background-color: white;
 	}
 
 	.new-vote p{
@@ -180,5 +181,29 @@ import Layout from '../layouts/Layout.astro';
   font-family: "VT323", monospace;
   font-size: 2rem;
 	}
+
+	@media screen and (max-width: 767px) {
+	.buttons{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	#sign-up{
+		margin:0 auto;
+	}
+
+	#log-in{
+		margin:0 auto;
+		margin-top:8px;
+	}
+
+	button:first-child{
+		margin-right:0px;
+	}
+	}
+
 </style>
 
