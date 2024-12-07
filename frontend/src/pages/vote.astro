@@ -6,6 +6,10 @@ import Layout from '../layouts/Layout.astro';
   <div class="vote-container">
     <div class="vote">
       <h2>Let's Vote</h2>
+      <div class="edit">
+        <img src="src/assets/edit.svg" alt="edit">
+        <p>Edit</p>
+      </div>
       <form class="vote-form">
         <label>
           <span>Question</span>
@@ -25,6 +29,51 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 </Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Poll ID を URL から取得（例えば、URLが "/poll/:id" の場合）
+const pollId = window.location.pathname.split("/").pop(); // URLからIDを取得
+
+// サーバーから投票の詳細を取得する関数
+async function fetchPollDetail() {
+  try {
+    const response = await fetch(`http://localhost:3001/api/poll/${pollId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch poll details");
+    }
+
+    const poll = await response.json(); 
+
+    const question = document.querySelector(".question") as HTMLElement;
+
+    question.textContent = poll.question 
+
+    const description = document.querySelector(".description") as HTMLElement;
+
+    if (poll.description) {
+      description.textContent = poll.description;
+      description.style.display = "block"; 
+    } else {
+      description.style.display = "none"; 
+    }
+
+    const optionsList = document.querySelector(".options-list") as HTMLElement; 
+    optionsList.innerHTML = ""; 
+
+    poll.options.forEach((option, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${option.text} (${option.votes} votes)`;
+      optionsList.appendChild(listItem);
+    });
+
+      } catch (error) {
+        console.error("Error fetching poll details:", error);
+      }
+    }
+    fetchPollDetail()
+    })
+</script>
 
 <style>
 
@@ -90,6 +139,22 @@ input{
   box-shadow: none;
   background-color: white;
   color: black;
+}
+
+.edit{
+  display:flex;
+}
+
+.edit p{
+  font-size: 1.5rem;
+  padding-left: 10px;
+}
+
+img{
+  width: 40px;
+  height: 40px;
+  rotate: 180deg;
+  padding-right: 10px;
 }
 
 </style>

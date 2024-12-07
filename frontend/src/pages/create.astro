@@ -107,10 +107,16 @@ import Layout from '../layouts/Layout.astro';
       const description = createFormData.get('description');
       const option = createFormData.get('option');
 
-		console.log(JSON.stringify({ question, description, option }));
+		  console.log(JSON.stringify({ question, description, option }));
+
+      if (!question || !option) {
+    alert('Please fill in fields');
+    return;
+  }
 
     try{
       const response = await fetch(`http://localhost:3001/createPoll`, {
+      credentials: 'include',
 			method: 'POST',
 			headers: {
 				"Content-Type": 'application/json',
@@ -120,13 +126,11 @@ import Layout from '../layouts/Layout.astro';
       "discription":description,
       "option":option
 			}),
-			credentials: 'include'
 		});
-
   } catch (error) {
     console.error('Error:', error);
     alert('Something went wrong. Please try again later.');
-  }	
+    }	
 	});
 
 	})
