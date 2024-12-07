@@ -15,7 +15,13 @@ const app = express()
 const server = createServer(app)
 
 
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:4321',
+  credentials:true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -25,6 +31,7 @@ app.use('/api/poll', pollRouter)
 
 const io = new SocketIOServer(server, {
   cors: {
+    
     origin: " http://localhost:4321/",
     methods: ["GET", "POST"]
   }
