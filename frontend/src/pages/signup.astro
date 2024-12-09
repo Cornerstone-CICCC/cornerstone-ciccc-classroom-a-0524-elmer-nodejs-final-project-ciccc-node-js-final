@@ -32,6 +32,10 @@ import Layout from '../layouts/Layout.astro';
               <li><img src="/assets/5.png" alt="monster" data-icon="5"></li>
             </ul>
         </label>
+
+        <p>Already have an account? 
+          <a href="/login">click here to login</a>
+        </p>
         <button type="submit">Sign Up</button>
       </form>
     </div>
@@ -78,7 +82,7 @@ import Layout from '../layouts/Layout.astro';
   // http://localhost:3001
 
   try {
-    const response = await fetch('https://voting-backend-ypvh.onrender.com//api/auth/register', {
+    const response = await fetch('http://localhost:3001/api/auth/register', {
 			credentials: 'include',
       method: 'POST',
       headers: {

@@ -8,13 +8,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id ='home-btn'>Home</a>
+            <a class="nav-link active" aria-current="page" href="/" id ='home-btn'>Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id ='create-btn'>Create New Vote</a>
+            <a class="nav-link" href="/create" id ='create-btn'>Create New Vote</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id ='logout-btn'>Logout</a>
+            <a class="nav-link" id ='logout-btn'>Logout</a>
           </li>
           <li class="nav-item">
             <img src="">
@@ -41,9 +41,9 @@
 	
       function getCookie(name: string): string | undefined {
 	const cookies = document.cookie.split('; ');
-	console.log('All cookies:', cookies);  // Log all cookies to see what is available
+	console.log('All cookies:', cookies); 
 	const cookie = cookies.find(cookie => cookie.startsWith(name + '='));
-	console.log('Found cookie:', cookie);  // Log the specific cookie found
+	console.log('Found cookie:', cookie);
 	return cookie ? cookie.split('=')[1] : undefined;
 }
 
@@ -52,7 +52,6 @@
 		const authToken = getCookie('auth_token'); 
 
 		if (authToken) {
-			// If the auth_token exists, proceed to the create page
 			window.location.href = '/create';
 		} else {
 			alert('Please log in to create a new vote');
@@ -60,10 +59,22 @@
 		}
 	});
 
-			logoutBtn.addEventListener('click', () => {
-				window.location.href = '/create'; 
-			});
-	 })
+  logoutBtn.addEventListener('click', async () => {
+      try {
+        document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        
+        const response = await fetch('http://localhost:3001/api/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+
+        window.location.href = '/login';
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Logout failed. Please try again.');
+      }
+    });
+  });
 </script>
 <style>
   nav{

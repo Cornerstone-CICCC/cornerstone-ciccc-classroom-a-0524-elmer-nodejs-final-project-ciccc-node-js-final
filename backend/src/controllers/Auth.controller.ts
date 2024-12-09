@@ -67,7 +67,21 @@ if (!passwordMatch) {
   }
 };
 
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  try {
+    res.clearCookie("authToken", {
+      httpOnly: true,
+      path: "/",
+    });
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ message: "Logout failed", error: (error as Error).message });
+  }
+};
 export default {
   register,
   login,
+  logout
 };
