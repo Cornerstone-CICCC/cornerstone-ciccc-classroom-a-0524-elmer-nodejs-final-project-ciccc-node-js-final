@@ -52,15 +52,15 @@ if (!passwordMatch) {
 
     const jwtSecret = process.env.JWT_SECRET!
 
-    const token = jwt.sign({ id: user?.id }, jwtSecret, {
+    const token = jwt.sign({ id: user.id }, jwtSecret, {
       expiresIn: "1d",
     });
+
 
     res.cookie("authToken", token, {
       httpOnly: true,     
       maxAge: 24 * 60 * 60 * 1000,
     });
-
     res.status(200).json({ message: "Login successful" });
   } catch (err) {
     res.status(500).json({ message: "Login failed", error: (err as Error).message });

@@ -39,14 +39,26 @@
 				window.location.href = '/'; 
 			});
 	
-			createBtn.addEventListener('click', () => {
-        const isLoggedIn = localStorage.getItem('token'); 
-        if (!isLoggedIn) {
-          alert('Please log in');
-        }else{
-          window.location.href = '/create'; 
-        }
-			});
+      function getCookie(name: string): string | undefined {
+	const cookies = document.cookie.split('; ');
+	console.log('All cookies:', cookies);  // Log all cookies to see what is available
+	const cookie = cookies.find(cookie => cookie.startsWith(name + '='));
+	console.log('Found cookie:', cookie);  // Log the specific cookie found
+	return cookie ? cookie.split('=')[1] : undefined;
+}
+
+
+    createBtn.addEventListener('click', async () => {
+		const authToken = getCookie('auth_token'); 
+
+		if (authToken) {
+			// If the auth_token exists, proceed to the create page
+			window.location.href = '/create';
+		} else {
+			alert('Please log in to create a new vote');
+			window.location.href = '/login';
+		}
+	});
 
 			logoutBtn.addEventListener('click', () => {
 				window.location.href = '/create'; 

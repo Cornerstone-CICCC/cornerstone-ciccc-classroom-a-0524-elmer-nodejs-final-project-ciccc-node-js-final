@@ -31,10 +31,11 @@ app.use('/api/poll', pollRouter)
 
 const io = new SocketIOServer(server, {
   cors: {
-    
-    origin: " http://localhost:4321/",
-    methods: ["GET", "POST"]
-  }
+    origin: "http://localhost:4321", 
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true, 
+  },
 });
 
 

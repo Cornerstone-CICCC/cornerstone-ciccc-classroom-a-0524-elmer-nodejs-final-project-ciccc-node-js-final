@@ -11,7 +11,7 @@ const asyncMiddleware = (fn: (req: Request, res: Response, next: NextFunction) =
   };
 };
 
-// router.post("/", authMiddleware, createPoll);
+// pollRouter.post("/", createPoll);
 pollRouter.post('/', asyncMiddleware(authMiddleware), createPoll)
 pollRouter.get("/", getPolls);
 pollRouter.get('/:id', pollDetail)

@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PollDetail from '../../components/PollDetail';
+
+
+export const prerender = false;
+const { id } = Astro.params;
+---
+
+<Layout>
+  <div class="poll-detail">
+    <main class="container">
+      <h2>LET'S VOTE!!</h2>
+      <p>Click poll to vote!</p>
+      <PollDetail client:load pollId={id} />
+    </main>
+  </div>
+</Layout>
+
+
+<style>
+.poll-detail {
+  font-family: "VT323", monospace;
+  background-image: url('/assets/main_visual.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh; 
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.poll-detail h2{
+  font-family: "VT323", monospace;
+}
+

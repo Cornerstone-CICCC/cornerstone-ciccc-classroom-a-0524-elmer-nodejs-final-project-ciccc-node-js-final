@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.model';
 
-export const authMiddleware = async (
+export async function authMiddleware(
   req: Request, 
   res: Response, 
   next: NextFunction
-) => {
+){
   try {
     // クッキーからトークンを取得
     const token = req.cookies.authToken;
@@ -49,3 +49,5 @@ export const authMiddleware = async (
     });
   }
 };
+
+

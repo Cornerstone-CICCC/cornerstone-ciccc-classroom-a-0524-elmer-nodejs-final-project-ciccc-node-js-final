@@ -21,7 +21,7 @@ import Layout from '../layouts/Layout.astro';
         </label>
         <label>
           <span>Description</span>
-          <input type="text" name="description" autocomplete="off" class="description" required placeholder="input your description">
+          <input type="text" name="description" autocomplete="off" class="description" placeholder="input your description">
         </label>
         <label>
           <div class="subtitle">
@@ -30,7 +30,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div class="option-form">
             <input type="text" name="option" autocomplete="off" class="option" required placeholder="input your option"required>
-            <img src="src/assets/trashCan.svg" alt="trashCan" class="trash-can">
+            <img src="/assets/trashCan.svg" alt="trashCan" class="trash-can">
           </div>
           <span class="create-option">+ Create Option</span>
         </label>
@@ -72,7 +72,7 @@ import Layout from '../layouts/Layout.astro';
       newInput.style.border='2px solid black';
 
       const trashCanImg = document.createElement('img');
-      trashCanImg.src = 'src/assets/trashCan.svg';
+      trashCanImg.src = '/assets/trashCan.svg';
       trashCanImg.alt = 'trashCan';
       trashCanImg.className = 'trash-can';
       trashCanImg.style.width = '40px';
@@ -99,17 +99,17 @@ import Layout from '../layouts/Layout.astro';
       const createFormData = new FormData(createForm);
       const question = createFormData.get('question');
       const description = createFormData.get('description');
-      const option = createFormData.get('option');
+      const options = createFormData.getAll('option');
 
-		  console.log(JSON.stringify({ question, description, option }));
+		  console.log(JSON.stringify({ question, description, options }));
 
-      if (!question || !option) {
-    alert('Please fill in fields');
-    return;
-  }
+      if (!question || !options) {
+        alert('Please fill in fields');
+        return;
+      }
 
     try{
-      const response = await fetch(`http://localhost:3001/createPoll`, {
+      const response = await fetch(`http://localhost:3001/api/poll/`, {
       credentials: 'include',
 			method: 'POST',
 			headers: {
@@ -118,10 +118,10 @@ import Layout from '../layouts/Layout.astro';
 			body: JSON.stringify({
 			"question":question,
       "discription":description,
-      "option":option
+      options: options.map(option => ({ text: option})),
 			}),
 		});
-  } catch (error) {
+    } catch (error) {
     console.error('Error:', error);
     alert('Something went wrong. Please try again later.');
     }	
@@ -136,7 +136,7 @@ import Layout from '../layouts/Layout.astro';
     margin:0 auto;
 		justify-content: center;
     height:100vh;
-    background-image: url('/src/assets/create.jpg');
+    background-image: url('/assets/create.jpg');
 		background-size: cover;
 		background-position: center;
     font-family: "VT323", monospace;
