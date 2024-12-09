@@ -61,9 +61,7 @@
 
   logoutBtn.addEventListener('click', async () => {
       try {
-        document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        
-        const response = await fetch('http://localhost:3001/api/logout', {
+        const response = await fetch('http://localhost:3001/api/auth/logout', {
           method: 'POST',
           credentials: 'include'
         });
